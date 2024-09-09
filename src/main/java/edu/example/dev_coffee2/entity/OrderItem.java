@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @ToString(exclude = {"product", "order"})
-@Table(name = "orderItems")
+@Table(name = "orderItems", indexes = @Index(columnList = "order_id"))
 public class OrderItem  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
