@@ -4,6 +4,7 @@ import edu.example.dev_coffee2.enums.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +42,14 @@ public class Order {
 
     public void changeOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public void changeAddress(String address) {
+        this.address = address;
+    }
+
+    public void changePostcode(String postcode) {
+        this.postcode = postcode;
     }
 
 
