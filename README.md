@@ -10,10 +10,10 @@ Spring boot v- 3.3.3
 
 POST > http://localhost:8080/api/v1/orders
 
-```json
+```jsonc
 JSON 예시:
 {
-  "productId": "3",   // products에 등록된 제품 1 ~ 4번 중 하나
+  "productId": "3",    products에 등록된 제품 1 ~ 4번 중 하나
   "address": "의정부",
   "postcode": "35262",
   "orderStatus": "CANCELLED", // Enum OrderStatus class 1 ~ 4가지 중 하나
@@ -36,7 +36,7 @@ productId = 3 은 Category 3번째인 BrazilSerraDoCoffee 임.
 ## 조회
 ### getAllOrders() 메서드 테스트 시
 GET > http://localhost:8080/api/v1/orders/ email
-```json
+```jsonc
 
 예상 출력:
 
@@ -64,7 +64,7 @@ getAllItems() 메서드는 Order 정보를 제외하고 email을 기준으로 Or
 ## 수정  
 ### modify() 메서드 테스트 시
 PUT > http://localhost:8080/api/v1/orders/{orderId}
-```json
+```jsonc
 
 JSON 예시:
 
@@ -86,7 +86,7 @@ DELETE > http://localhost:8080/api/v1/orders/orderItem/{orderItemId}
 ### deleteOrder() 메서드 테스트 시
 DELETE > http://localhost:8080/api/v1/orders/{orderItemId}
 
-```josn
+```josnc
 OrderItem이 Order_Id를 참조(FK)하고 있기 때문에,
 OrderItems를 먼저 삭제해야 Orders 테이블의 컬럼들을 삭제할 수 있다.
 ```
