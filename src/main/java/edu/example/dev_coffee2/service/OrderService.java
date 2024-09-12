@@ -103,13 +103,13 @@ public class OrderService {
     }
 
     public void modify(OrderItemDTO orderItemDTO){    //수정
-        OrderItem orderItem = orderItemRepository.findById(Math.toIntExact(orderItemDTO.getOrderItemId())).orElseThrow(
+        OrderItem orderItem = orderItemRepository.findById(orderItemDTO.getOrderItemId()).orElseThrow(
                 OrderException.NOT_FOUND_ORDERITEM::get
         );
 
         if(orderItemDTO.getQuantity() <= 0){
             try{
-                orderItemRepository.deleteById(Math.toIntExact(orderItemDTO.getOrderItemId()));
+                orderItemRepository.deleteById(orderItemDTO.getOrderItemId());
                 return;
             }catch (Exception e){
                 log.error("--- " + e.getMessage());
@@ -130,11 +130,11 @@ public class OrderService {
 
     //삭제
     public void remove(Long orderItemId){
-        OrderItem orderItem = orderItemRepository.findById(Math.toIntExact(orderItemId)).orElseThrow(
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).orElseThrow(
                                         OrderException.NOT_FOUND_ORDERITEM::get);
 
         try {
-            orderItemRepository.deleteById(Math.toIntExact(orderItemId));
+            orderItemRepository.deleteById(orderItemId);
 
             Optional<List<OrderItem>> foundOrderItems = orderItemRepository.getOrderItems(orderItem.getOrder().getOrderId());
             if (foundOrderItems.isEmpty() || foundOrderItems.get().size() == 0) {

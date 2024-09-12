@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
+public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("select o from OrderItem o join fetch o.product where o.order.email = :email order by o.orderItemId")
     Optional<List<OrderItem>> getOrderItems(@Param("email") String email);
 
