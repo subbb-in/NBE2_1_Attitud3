@@ -5,15 +5,18 @@ import edu.example.dev_coffee2.dto.OrderItemDTO;
 import edu.example.dev_coffee2.entity.Order;
 import edu.example.dev_coffee2.entity.OrderItem;
 import edu.example.dev_coffee2.entity.Product;
+import edu.example.dev_coffee2.enums.OrderStatus;
 import edu.example.dev_coffee2.exception.OrderException;
 import edu.example.dev_coffee2.repository.OrderItemRepository;
 import edu.example.dev_coffee2.repository.OrderRepository;
 import edu.example.dev_coffee2.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -146,6 +149,24 @@ public class OrderService {
             throw OrderException.FAIL_REMOVE.get();
         }
 
+    }
+
+    // 시간에 따른 OrderStatus 자동 변환 메서드
+    @Scheduled(cron = "0 0 2 * * ?") // 매일 02시에 실행
+    public void updateOrderStatusesReady() {
+        // 어제 14시
+        LocalDateTime start = LocalDateTime.now().minusDays(1).withHour(14).withMinute(0).withSecond(0);
+
+        // 오늘 02시
+        LocalDateTime end = LocalDateTime.now().withHour(2).withMinute(0).withSecond(0);
+
+        // 조건에 맞는 주문 조회
+        List<Order> orders = orderRepository.findByRegDateBetweenAndOrderStatusNot(start, end, OrderStatus.READY_FOR_DELIVERY);
+
+        for (Order order : orders) {
+            order.changeOrderStatus(OrderStatus.READY_FOR_DELIVERY);
+            orderRepository.save(order);
+        }
     }
 
 }
